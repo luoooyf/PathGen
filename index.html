@@ -27,6 +27,20 @@
             text-decoration: none;
         }
         .credit a:hover { text-decoration: underline; }
+        .lang-toggle {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 10;
+            width: auto;
+            padding: 6px 10px;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid #000000;
+            background: #84f51b;
+            color: #000000;
+        }
         :root { color-scheme: light; --panel-w: clamp(240px, 20vw, 320px); }
         html, body { margin: 0; height: 100%; overflow: hidden; background: #ffffff; }
         .layout { display: flex; height: 100vh; width: 100vw; background: #ffffff; }
@@ -107,6 +121,30 @@
             max-width: var(--panel-w);
             box-sizing: border-box;
             align-self: center;
+        }
+        .support {
+            margin-top: 10px;
+            width: 100%;
+        }
+        .support-panel {
+            display: none;
+            margin-top: 8px;
+            border: 1px solid #000000;
+            padding: 6px;
+            background: #84f51b;
+            box-sizing: border-box;
+        }
+        .support-panel.is-open { display: block; }
+        .support-text {
+            font-size: 9px;
+            line-height: 1.35;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+        .support-panel img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         .row label, .row span { color: #000000; }
         .row { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 10px 0; }
@@ -257,6 +295,13 @@
             width: 100%;
             color: #ffffff;
         }
+        button.lang-toggle {
+            width: auto;
+            padding: 6px 10px;
+            border: 1px solid #000000;
+            background: #84f51b;
+            color: #000000;
+        }
         button:active { transform: translateY(1px); }
         @media (max-width: 900px) {
             .layout { flex-direction: column; }
@@ -271,96 +316,97 @@
     </style>
 </head>
 <body>
+    <button id="langToggle" class="lang-toggle" type="button">中文</button>
     <div class="layout">
       <div class="ui">
         <div class="controls">
         <div class="group line-group">
           <div class="group-header">
-            <div class="group-title">Line</div>
+            <div class="group-title" data-i18n="groupLine">Line</div>
             <input id="lineToggle" class="group-toggle" type="checkbox" checked>
           </div>
           <div class="group-body">
             <div class="row">
-              <label>Stroke</label>
+              <label data-i18n="labelStroke">Stroke</label>
               <input id="stroke" type="range" min="0.5" max="100" step="0.1" value="4">
               <span id="strokeVal">4.0</span>
             </div>
 
             <div class="row">
-              <label>Line Style</label>
+              <label data-i18n="labelLineStyle">Line Style</label>
               <input id="lineStyle" type="range" min="0" max="9" step="1" value="0">
               <span id="lineStyleVal">Solid</span>
             </div>
 
             <div class="row">
-              <label>Quality</label>
+              <label data-i18n="labelQuality">Quality</label>
               <input id="quality" type="range" min="1" max="4" step="1" value="3">
               <span id="qualityVal">3</span>
             </div>
 
             <div class="row">
-              <label>Detail</label>
+              <label data-i18n="labelDetail">Detail</label>
               <input id="detail" type="range" min="0" max="6" step="1" value="3">
               <span id="detailVal">3</span>
             </div>
 
             <div class="row">
-              <label>Organic</label>
+              <label data-i18n="labelOrganic">Organic</label>
               <input id="organic" type="range" min="0" max="100" step="1" value="100">
               <span id="organicVal">100%</span>
             </div>
 
             <div class="row">
-              <label>Range</label>
+              <label data-i18n="labelRange">Range</label>
               <input id="range" type="range" min="10" max="100" step="1" value="100">
               <span id="rangeVal">100%</span>
             </div>
 
             <div class="row">
-              <label>Speed</label>
+              <label data-i18n="labelSpeed">Speed</label>
               <input id="speed" type="range" min="0.2" max="2.5" step="0.1" value="0.5">
               <span id="speedVal">0.5</span>
             </div>
 
             <div class="row">
-              <label>Trail</label>
+              <label data-i18n="labelTrail">Trail</label>
               <input id="trail" type="range" min="0" max="0.95" step="0.01" value="0">
               <span id="trailVal">0%</span>
             </div>
 
             <div class="row">
-              <label>Breath</label>
+              <label data-i18n="labelBreath">Breath</label>
               <input id="breath" type="range" min="0" max="1" step="0.01" value="0.2">
               <span id="breathVal">0.20</span>
             </div>
 
             <div class="row">
-              <label>Jitter</label>
+              <label data-i18n="labelJitter">Jitter</label>
               <input id="lineJitter" type="range" min="0" max="1" step="0.01" value="0">
               <span id="lineJitterVal">0.00</span>
             </div>
 
             <div class="row">
-              <label>Layers</label>
+              <label data-i18n="labelLayers">Layers</label>
               <input id="layers" type="range" min="1" max="5" step="1" value="1">
               <span id="layersVal">1</span>
             </div>
 
           <div class="row inline">
-            <label>Gradient</label>
+            <label data-i18n="labelGradient">Gradient</label>
             <div class="inline-right">
               <input id="gradient" type="checkbox">
             </div>
           </div>
 
           <div class="row">
-            <label>Gradient Depth</label>
+            <label data-i18n="labelGradientDepth">Gradient Depth</label>
             <input id="gradDepth" type="range" min="0" max="0.8" step="0.01" value="0.35">
             <span id="gradDepthVal">0.35</span>
           </div>
 
           <div class="row">
-            <label>Gradient Speed</label>
+            <label data-i18n="labelGradientSpeed">Gradient Speed</label>
             <input id="gradSpeed" type="range" min="0" max="3" step="0.1" value="0.6">
             <span id="gradSpeedVal">0.6</span>
           </div>
@@ -369,74 +415,74 @@
 
         <div class="group node-group">
           <div class="group-header">
-            <div class="group-title">Nodes</div>
+            <div class="group-title" data-i18n="groupNodes">Nodes</div>
             <input id="nodesToggle" class="group-toggle" type="checkbox">
           </div>
           <div class="group-body">
             <div class="row">
-              <label>Nodes</label>
+              <label data-i18n="labelNodes">Nodes</label>
               <input id="nodes" type="range" min="0" max="60" step="1" value="12">
               <span id="nodesVal">12</span>
             </div>
 
             <div class="row">
-                <label>Node Shape</label>
+                <label data-i18n="labelNodeShape">Node Shape</label>
                 <input id="shape" type="range" min="0" max="18" step="1" value="2">
                 <span id="shapeVal">Circle</span>
               </div>
 
           <div class="row">
-            <label>Node Size</label>
+            <label data-i18n="labelNodeSize">Node Size</label>
             <input id="shapeSize" type="range" min="3" max="60" step="1" value="6">
             <span id="shapeSizeVal">6</span>
           </div>
           <div class="row">
-            <label>Node Stroke</label>
+            <label data-i18n="labelNodeStroke">Node Stroke</label>
             <input id="nodeStroke" type="range" min="0.5" max="6" step="0.1" value="1">
             <span id="nodeStrokeVal">1.0</span>
           </div>
 
           <div class="row">
-            <label>Node Drift</label>
+            <label data-i18n="labelNodeDrift">Node Drift</label>
             <input id="nodeDrift" type="range" min="0" max="1" step="0.01" value="0.2">
             <span id="nodeDriftVal">0.20</span>
           </div>
 
           <div class="row inline">
-            <label>Interact</label>
+            <label data-i18n="labelInteract">Interact</label>
             <div class="inline-right">
               <input id="nodeInteract" type="checkbox">
             </div>
           </div>
 
           <div class="row">
-            <label>Force</label>
+            <label data-i18n="labelForce">Force</label>
             <input id="nodeForce" type="range" min="0" max="1" step="0.01" value="0.3">
             <span id="nodeForceVal">0.30</span>
           </div>
 
           <div class="row">
-            <label>Radius</label>
+            <label data-i18n="labelRadius">Radius</label>
             <input id="nodeRadius" type="range" min="50" max="400" step="10" value="160">
             <span id="nodeRadiusVal">160</span>
           </div>
 
           <div class="row inline">
-            <label>Repel</label>
+            <label data-i18n="labelRepel">Repel</label>
             <div class="inline-right">
               <input id="nodeRepel" type="checkbox">
             </div>
           </div>
 
           <div class="row inline">
-              <label>Fill</label>
+              <label data-i18n="labelFill">Fill</label>
               <div class="inline-right">
                 <input id="fill" type="checkbox" checked>
               </div>
             </div>
 
             <div class="row inline">
-              <label>Number</label>
+              <label data-i18n="labelNumber">Number</label>
               <div class="inline-right">
                 <input id="labels" type="checkbox">
               </div>
@@ -446,34 +492,34 @@
 
         <div class="group other-group">
           <div class="row inline">
-            <label>Background Colour</label>
+            <label data-i18n="labelBackground">Background Colour</label>
             <div class="inline-right">
               <input id="bgColor" type="color" value="#000000">
             </div>
           </div>
           <div class="row inline">
-            <label>Stroke Colour</label>
+            <label data-i18n="labelStrokeColor">Stroke Colour</label>
             <div class="inline-right">
               <input id="strokeColor" type="color" value="#ffffff">
             </div>
           </div>
           <div class="row inline">
-            <label>Node Colour</label>
+            <label data-i18n="labelNodeColor">Node Colour</label>
             <div class="inline-right">
               <input id="nodeColor" type="color" value="#ffffff">
             </div>
           </div>
           <div class="row">
-            <label>Background Image</label>
+            <label data-i18n="labelBackgroundImage">Background Image</label>
             <div class="file-line">
               <input id="bgImage" type="file" accept="image/*">
-              <button id="clearBg" type="button">Clear</button>
+              <button id="clearBg" type="button" data-i18n="buttonClear">Clear</button>
             </div>
           </div>
           <div class="row">
-            <label>Canvas Size</label>
+            <label data-i18n="labelCanvasSize">Canvas Size</label>
             <select id="canvasSize">
-              <option value="window">Window</option>
+              <option value="window" data-i18n="optionWindow">Window</option>
               <option value="1080x1960">1080x1960</option>
               <option value="1080x1340">1080x1340</option>
               <option value="1080x1440">1080x1440</option>
@@ -484,14 +530,25 @@
 
         <div class="ui-footer">
           <div class="btns">
-            <button id="regen">Reset</button>
-            <button id="pause">Pause</button>
-            <button id="download">Download</button>
-            <button id="record">Record</button>
+            <button id="regen" data-i18n="buttonReset">Reset</button>
+            <button id="pause" data-i18n="buttonPause">Pause</button>
+            <button id="download" data-i18n="buttonDownload">Download</button>
+            <button id="record" data-i18n="buttonRecord">Record</button>
           </div>
 
-          <div class="hint">
+          <div class="hint" data-i18n-html="hint">
           <b>R</b> regenerate · <b>Space</b> pause · <b>H</b> hide panel
+          </div>
+
+          <div class="support">
+            <button id="supportToggle" type="button" data-i18n="buttonSupport">Support PathGen</button>
+            <div class="support-panel" id="supportPanel">
+              <div class="support-text">
+                <div data-i18n="supportLine1">PathGen is free and open to use.</div>
+                <div data-i18n-html="supportLine2">If you find it helpful, you can support me via <a href="https://buymeacoffee.com/luoooyf" target="_blank" rel="noopener">Buy Me a Coffee</a>.</div>
+              </div>
+              <img id="supportImage" src="赞赏码.jpg" alt="赞赏码">
+            </div>
           </div>
         </div>
       </div>
@@ -509,9 +566,177 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const stage = document.getElementById('stage');
 const elRecord = document.getElementById("record");
+const supportToggle = document.getElementById("supportToggle");
+const supportPanel = document.getElementById("supportPanel");
+const supportImage = document.getElementById("supportImage");
 const resizer = document.getElementById("resizer");
 const brand = document.getElementById("brand");
 const panel = document.querySelector(".ui");
+const langToggle = document.getElementById("langToggle");
+
+let currentLang = "en";
+const i18n = {
+    en: {
+        groupLine: "Line",
+        labelStroke: "Stroke",
+        labelLineStyle: "Line Style",
+        labelQuality: "Quality",
+        labelDetail: "Detail",
+        labelOrganic: "Organic",
+        labelRange: "Range",
+        labelSpeed: "Speed",
+        labelTrail: "Trail",
+        labelBreath: "Breath",
+        labelJitter: "Jitter",
+        labelLayers: "Layers",
+        labelGradient: "Gradient",
+        labelGradientDepth: "Gradient Depth",
+        labelGradientSpeed: "Gradient Speed",
+        groupNodes: "Nodes",
+        labelNodes: "Nodes",
+        labelNodeShape: "Node Shape",
+        labelNodeSize: "Node Size",
+        labelNodeStroke: "Node Stroke",
+        labelNodeDrift: "Node Drift",
+        labelInteract: "Interact",
+        labelForce: "Force",
+        labelRadius: "Radius",
+        labelRepel: "Repel",
+        labelFill: "Fill",
+        labelNumber: "Number",
+        labelBackground: "Background Colour",
+        labelStrokeColor: "Stroke Colour",
+        labelNodeColor: "Node Colour",
+        labelBackgroundImage: "Background Image",
+        labelCanvasSize: "Canvas Size",
+        buttonClear: "Clear",
+        optionWindow: "Window",
+        buttonReset: "Reset",
+        buttonPause: "Pause",
+        buttonDownload: "Download",
+        buttonRecord: "Record",
+        buttonSupport: "Support PathGen",
+        hint: "<b>R</b> regenerate · <b>Space</b> pause · <b>H</b> hide panel",
+        supportLine1: "PathGen is free and open to use.",
+        supportLine2: "If you find it helpful, you can support me via <a href=\"https://buymeacoffee.com/luoooyf\" target=\"_blank\" rel=\"noopener\">Buy Me a Coffee</a>."
+    },
+    cn: {
+        groupLine: "线条",
+        labelStroke: "线宽",
+        labelLineStyle: "线条样式",
+        labelQuality: "质量",
+        labelDetail: "细节",
+        labelOrganic: "自然度",
+        labelRange: "范围",
+        labelSpeed: "速度",
+        labelTrail: "残影",
+        labelBreath: "呼吸",
+        labelJitter: "抖动",
+        labelLayers: "层数",
+        labelGradient: "渐变",
+        labelGradientDepth: "渐变深度",
+        labelGradientSpeed: "渐变速度",
+        groupNodes: "节点",
+        labelNodes: "节点数量",
+        labelNodeShape: "节点形状",
+        labelNodeSize: "节点大小",
+        labelNodeStroke: "节点描边",
+        labelNodeDrift: "节点漂移",
+        labelInteract: "交互",
+        labelForce: "力度",
+        labelRadius: "半径",
+        labelRepel: "排斥",
+        labelFill: "填充",
+        labelNumber: "编号",
+        labelBackground: "背景颜色",
+        labelStrokeColor: "线条颜色",
+        labelNodeColor: "节点颜色",
+        labelBackgroundImage: "背景图片",
+        labelCanvasSize: "画布尺寸",
+        buttonClear: "清除",
+        optionWindow: "窗口",
+        buttonReset: "重置",
+        buttonPause: "暂停",
+        buttonDownload: "下载",
+        buttonRecord: "录制",
+        buttonSupport: "支持 PathGen",
+        hint: "<b>R</b> 重新生成 · <b>Space</b> 暂停 · <b>H</b> 隐藏面板",
+        supportLine1: "PathGen 保持公开使用。",
+        supportLine2: "如果你觉得这个工具对你有帮助，可以通过微信赞赏支持一下维护成本（按需即可）。"
+    }
+};
+const lineNamesByLang = {
+    en: ["Solid", "Particles", "Dashed", "Blocks", "Multi", "Stipple", "Pulse", "Zigzag", "Double", "Jitter"],
+    cn: ["实线", "颗粒", "虚线", "块状", "多段", "点描", "脉冲", "之字", "双线", "抖动"]
+};
+const shapeNamesByLang = {
+    en: [
+        "Cross",
+        "Triangle",
+        "Circle",
+        "Square",
+        "Coda",
+        "Empty Set",
+        "Square Dot",
+        "Diamond",
+        "Hexagon",
+        "Star",
+        "Pentagon",
+        "Octagon",
+        "Ring",
+        "Plus",
+        "Minus",
+        "Triangle Up",
+        "Triangle Down",
+        "Heart",
+        "Arrow"
+    ],
+    cn: [
+        "十字",
+        "三角形",
+        "圆形",
+        "方形",
+        "尾标",
+        "空集",
+        "方点",
+        "菱形",
+        "六边形",
+        "星形",
+        "五边形",
+        "八边形",
+        "圆环",
+        "加号",
+        "减号",
+        "上三角",
+        "下三角",
+        "心形",
+        "箭头"
+    ]
+};
+
+function applyI18n() {
+    const dict = i18n[currentLang] || i18n.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        const key = el.getAttribute("data-i18n-html");
+        if (dict[key]) el.innerHTML = dict[key];
+    });
+    if (langToggle) {
+        langToggle.textContent = currentLang === "en" ? "中文" : "EN";
+    }
+    if (supportImage) {
+        supportImage.style.display = currentLang === "cn" ? "block" : "none";
+    }
+    syncUI();
+}
+
+function setLang(next) {
+    currentLang = next;
+    applyI18n();
+}
 
 if (brand && panel) {
     ["input", "change", "pointerdown"].forEach(ev => {
@@ -525,6 +750,18 @@ if (brand) {
     setTimeout(() => {
         brand.classList.add("is-hidden");
     }, 2000);
+}
+
+if (supportToggle && supportPanel) {
+    supportToggle.addEventListener("click", () => {
+        supportPanel.classList.toggle("is-open");
+    });
+}
+if (langToggle) {
+    langToggle.addEventListener("click", () => {
+        const next = currentLang === "en" ? "cn" : "en";
+        setLang(next);
+    });
 }
 
 let width, height;
@@ -663,8 +900,8 @@ const ui = {
 
 function syncUI() {
     ui.strokeVal.textContent = (+ui.stroke.value).toFixed(1);
-    const lineNames = ["Solid", "Particles", "Dashed", "Blocks", "Multi", "Stipple", "Pulse", "Zigzag", "Double", "Jitter"];
-    ui.lineStyleVal.textContent = lineNames[parseInt(ui.lineStyle.value, 10)] || "Solid";
+    const lineNames = lineNamesByLang[currentLang] || lineNamesByLang.en;
+    ui.lineStyleVal.textContent = lineNames[parseInt(ui.lineStyle.value, 10)] || lineNames[0];
     ui.qualityVal.textContent = ui.quality.value;
     ui.nodesVal.textContent = ui.nodes.value;
     ui.detailVal.textContent = ui.detail.value;
@@ -678,28 +915,8 @@ function syncUI() {
     ui.gradDepthVal.textContent = (+ui.gradDepth.value).toFixed(2);
     ui.gradSpeedVal.textContent = (+ui.gradSpeed.value).toFixed(1);
     const shapeIdx = parseInt(ui.shape.value, 10);
-    const names = [
-        "Cross",
-        "Triangle",
-        "Circle",
-        "Square",
-        "Coda",
-        "Empty Set",
-        "Square Dot",
-        "Diamond",
-        "Hexagon",
-        "Star",
-        "Pentagon",
-        "Octagon",
-        "Ring",
-        "Plus",
-        "Minus",
-        "Triangle Up",
-        "Triangle Down",
-        "Heart",
-        "Arrow"
-    ];
-    ui.shapeVal.textContent = names[shapeIdx] || "Cross";
+    const names = shapeNamesByLang[currentLang] || shapeNamesByLang.en;
+    ui.shapeVal.textContent = names[shapeIdx] || names[0];
     ui.shapeSizeVal.textContent = ui.shapeSize.value;
     ui.nodeStrokeVal.textContent = (+ui.nodeStroke.value).toFixed(1);
     ui.nodeDriftVal.textContent = (+ui.nodeDrift.value).toFixed(2);
@@ -765,7 +982,7 @@ function syncUI() {
         requestRedraw();
     });
 });
-syncUI();
+applyI18n();
 syncNodesGroup();
 syncLineGroup();
 
@@ -807,6 +1024,7 @@ function applyTheme() {
     });
 
     document.querySelectorAll("button").forEach(btn => {
+        if (btn.classList.contains("lang-toggle")) return;
         btn.style.background = "#000000";
         btn.style.color = "#ffffff";
         btn.style.border = "none";
